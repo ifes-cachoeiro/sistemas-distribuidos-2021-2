@@ -12,7 +12,7 @@ def topology(remote_controller):
 
     h1 = net.addHost("h1", ip="10.0.1.1", mac="00:00:00:00:01:01")
     h2 = net.addHost("h2", ip="10.0.1.2", mac="00:00:00:00:01:02")
-    server1 = net.addHost("h2", ip="10.0.1.10", mac="00:00:00:00:01:0a")
+    server1 = net.addHost("server1", ip="10.0.1.10", mac="00:00:00:00:01:0a")
 
     info("*** Adding P4Switches (core)\n")
 
