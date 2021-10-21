@@ -9,7 +9,7 @@ PORT = 5000  # Porta que o Servidor esta
 def server(udp):
     print(f"Starting UDP Server on port {PORT}")
     udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    orig = (HOST, PORT)
+    orig = ("", PORT)
     udp.bind(orig)
     while True:
         msg, cliente = udp.recvfrom(1024)
