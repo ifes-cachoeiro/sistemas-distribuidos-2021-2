@@ -28,7 +28,7 @@ def main():
     udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     orig = ("", PORT)
     udp.bind(orig)
-    _thread.start_new_thread(server, (udp,))
+    server(udp)
 
 
 if __name__ == "__main__":
