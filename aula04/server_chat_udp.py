@@ -1,5 +1,4 @@
 import socket
-import _thread
 
 PORT = 5000  # Porta que o Servidor esta
 
