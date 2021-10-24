@@ -8,19 +8,19 @@ def server(udp):
     print(f"Starting UDP Server on port {PORT}")
     while True:
         msg, cliente = udp.recvfrom(1024)
-        msg_decoded = msg.decode('utf-8')
-        if msg_decoded.split(',')[0] == 'conectar':
+        msg_decoded = msg.decode("utf-8")
+        if msg_decoded.split(",")[0] == "conectar":
             novo_usuario = {
-                "nome": msg_decoded.split(',')[1],
-                "cliente": cliente
+                "nome": msg_decoded.split(",")[1],
+                "cliente": cliente,
             }
             listaUsuarios.append(novo_usuario)
-        elif msg_decoded.split(',')[0] == 'enviarMensagem':
-            usuario = msg_decoded.split(',')[1]
-            mensagem = msg_decoded.split(',')[2]
+        elif msg_decoded.split(",")[0] == "enviarMensagem":
+            usuario = msg_decoded.split(",")[1]
+            mensagem = msg_decoded.split(",")[2]
             msg_to_send = f"{usuario},{mensagem}"
             for u in listaUsuarios:
-                udp.sendto(msg_to_send.encode('utf-8'), u['cliente'])
+                udp.sendto(msg_to_send.encode("utf-8"), u["cliente"])
 
 
 def main():
