@@ -4,12 +4,12 @@ import _thread
 
 HOST = sys.argv[1]  # Endereco IP do S
 PORT = 5000  # Porta que o Servidor esta
+NOME_USUARIo = sys.argv[2]
 
 
 def server(udp):
     print(f"Starting UDP Server on port {PORT}")
-    udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    orig = (HOST, PORT)
+    orig = ("", PORT)
     udp.bind(orig)
     while True:
         msg, cliente = udp.recvfrom(1024)
@@ -19,9 +19,7 @@ def server(udp):
 
 def client():
     udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    orig = ("", PORT)
     dest = (HOST, PORT)
-    udp.bind(orig)
     _thread.start_new_thread(server, (udp,))
     print("Type q to exit")
     message = None
