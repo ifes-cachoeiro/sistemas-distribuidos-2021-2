@@ -1,5 +1,6 @@
 import socket
 import _thread
+import time
 
 HOST = ""  # Endereco IP do Servidor
 PORT = 5000  # Porta que o Servidor esta
@@ -20,12 +21,12 @@ def enviar(conn, client):
     print(f"Connected by {client}")
     while True:
         # Sending confirmation to the client
+        time.sleep(0.5)
         for p in LISTA_P:
             if p['cliente'] == client:
                 if len(p['lista_mensagens']) > 0:
                     msg = p['lista_mensagens'].pop(0)
                     conn.send(msg.encode('utf-8'))
-
 
 def server():
     print(f"Starting TCP Server on port {PORT}")
