@@ -8,7 +8,7 @@ lista_contatos = []
 def olamundo():
     return "<h1> Ola Mundo </h1>", 201
 
-@app.route("/contatos", methods = ["GET", "POST","PUT", "UPDATE"])
+@app.route("/contatos", methods = ["GET", "POST","PUT", "DELETE"])
 def contatos():
     if request.method == "GET":
         return jsonify(lista_contatos), 200
