@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from db import session, Cliente
+from db import session, Cliente, Produto
 
 app = Flask(__name__)
 
@@ -19,7 +19,7 @@ def clientes():
         for c in clientes:
             lista_clientes.append(
                 {
-                    "id_cliente": c.id_cliente,
+                    "id": c.id,
                     "nome": c.nome
                 }
             )
