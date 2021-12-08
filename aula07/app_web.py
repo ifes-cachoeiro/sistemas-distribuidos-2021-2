@@ -17,18 +17,11 @@ def clientes():
         # session.query(Cliente).filter(Cliente.id_cliente == 1)
         clientes = session.query(Cliente).all()
         for c in clientes:
-            lista_clientes.append(
-                {
-                    "id": c.id,
-                    "nome": c.nome
-                }
-            )
+            lista_clientes.append({"id": c.id, "nome": c.nome})
         return jsonify(lista_clientes), 200
     elif request.method == "POST":
         cliente = request.json
-        session.add(
-            Cliente(nome=cliente["nome"])
-        )
+        session.add(Cliente(nome=cliente["nome"]))
         session.commit()
         return "", 200
 
@@ -37,16 +30,24 @@ def clientes():
 def cliente(id_cliente):
     if request.method == "GET":
         try:
-            cliente = session.query(Cliente).filter(Cliente.id_cliente == id_cliente).one()
-            return jsonify({
-                "id_cliente": cliente.id_cliente,
-                "nome": cliente.nome
-            }), 200
+            cliente = (
+                session.query(Cliente)
+                .filter(Cliente.id_cliente == id_cliente)
+                .one()
+            )
+            return (
+                jsonify(
+                    {"id_cliente": cliente.id_cliente, "nome": cliente.nome}
+                ),
+                200,
+            )
         except Exception as ex:
             return "", 404
     elif request.method == "DELETE":
         try:
-            session.query(Cliente).filter(Cliente.id_cliente == id_cliente).delete()
+            session.query(Cliente).filter(
+                Cliente.id_cliente == id_cliente
+            ).delete()
         except Exception as ex:
             return "", 404
 

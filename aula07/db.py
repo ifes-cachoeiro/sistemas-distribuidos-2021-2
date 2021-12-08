@@ -21,12 +21,14 @@ class Cliente(Base):
     def __repr__(self):
         return f"Cliente {self.nome}"
 
+
 class Produto(Base):
     __tablename__ = "produto"
-    
+
     id = Column(Integer, primary_key=True)
     nome = Column(String, unique=False, nullable=False)
     valor = Column(Float, nullable=False)
+
 
 # fim da declaracao
 
