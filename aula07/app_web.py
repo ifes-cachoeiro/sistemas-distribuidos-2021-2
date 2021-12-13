@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
-from db import session, Cliente, Produto
+from db import session, Cliente
+from db import Produto, Carrinho, Venda
 
 app = Flask(__name__)
 
@@ -17,11 +18,22 @@ def clientes():
         # session.query(Cliente).filter(Cliente.id_cliente == 1)
         clientes = session.query(Cliente).all()
         for c in clientes:
-            lista_clientes.append({"id": c.id, "nome": c.nome})
+            lista_clientes.append(
+                {
+                    "id": c.id,
+                    "nome": c.nome,
+                    "endereco": c.endereco
+                }
+            )
         return jsonify(lista_clientes), 200
     elif request.method == "POST":
         cliente = request.json
-        session.add(Cliente(nome=cliente["nome"]))
+        session.add(
+            Cliente(
+                nome=cliente["nome"],
+                endereco = cliente["endereco"]
+            )
+        )
         session.commit()
         return "", 200
 
@@ -52,4 +64,7 @@ def cliente(id_cliente):
             return "", 404
 
 
-app.run(port=8080)
+app.run(
+    host="0.0.0.0",
+    port=8080
+)
