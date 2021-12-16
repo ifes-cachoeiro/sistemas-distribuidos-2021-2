@@ -10,23 +10,39 @@ app = Flask(__name__)
 def olamundo():
     return "<h1> Ola Mundo </h1>", 201
 
-
-@app.route("/cliente", methods=["GET", "POST", "PUT", "DELETE"])
-def clientes():
+@app.route("/cliente", methods=["GET", "POST"])
+@app.route("/cliente/<int:id_cliente>", methods=["GET", "PUT", "DELETE"])
+def clientes(id_cliente=None):
     if request.method == "GET":
-        lista_clientes = []
-        # session.query(Cliente)
-        # .filter(Cliente.id == 1)
-        # .delete()
-        clientes = session.query(Cliente).all()
-        for c in clientes:
-            lista_clientes.append(
-                {
-                    "id": c.id,
-                    "nome": c.nome
-                }
-            )
-        return jsonify(lista_clientes), 200
+        if id_cliente:
+            try:
+                cliente = (
+                    session.query(Cliente)
+                    .filter(Cliente.id == id_cliente)
+                    .one()
+                )
+                return (
+                    jsonify(
+                        {
+                            "id": cliente.id,
+                            "nome": cliente.nome
+                        }
+                    ),
+                    200,
+                )
+            except Exception as ex:
+                return "", 404
+        else:
+            lista_clientes = []
+            clientes = session.query(Cliente).all()
+            for c in clientes:
+                lista_clientes.append(
+                    {
+                        "id": c.id,
+                        "nome": c.nome
+                    }
+                )
+            return jsonify(lista_clientes), 200
     elif request.method == "POST":
         cliente = request.json
         session.add(
@@ -37,34 +53,17 @@ def clientes():
         )
         session.commit()
         return "", 200
-
-
-@app.route("/cliente/<int:id_cliente>", methods=["GET", "PUT", "DELETE"])
-def cliente(id_cliente):
-    if request.method == "GET":
-        try:
-            cliente = (
-                session.query(Cliente)
-                .filter(Cliente.id_cliente == id_cliente)
-                .one()
-            )
-            return (
-                jsonify(
-                    {"id_cliente": cliente.id_cliente, "nome": cliente.nome}
-                ),
-                200,
-            )
-        except Exception as ex:
-            return "", 404
-    elif request.method == "DELETE":
-        try:
-            session.query(Cliente).filter(
-                Cliente.id_cliente == id_cliente
-            ).delete()
-        except Exception as ex:
-            return "", 404
-
-
+    elif request.method == "PUT":
+        cliente = request.json
+        session.query(Cliente).filter(
+            Cliente.id == id_cliente
+        ).one().update(
+            {
+                'nome': cliente['nome'],
+                'endereco': cliente['endereco']
+            }
+        )
+        
 app.run(
     host="0.0.0.0",
     port=8080
