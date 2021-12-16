@@ -39,25 +39,18 @@ class Carrinho(Base):
     id = Column(Integer, primary_key=True)
     preco = Column(Float, nullable=False)
     qtd = Column(Integer, nullable=False)
-    produto_id = Column(
-        Integer,
-        ForeignKey('produto.id')
-    )
-    venda_id = Column(
-        Integer,
-        ForeignKey('venda.id')
-    )
+    produto_id = Column(Integer, ForeignKey("produto.id"))
+    venda_id = Column(Integer, ForeignKey("venda.id"))
+
 
 class Venda(Base):
 
     __tablename__ = "venda"
 
     id = Column(Integer, primary_key=True)
-    cliente_id = Column(
-        Integer,
-        ForeignKey('cliente.id')
-    )
-    
+    cliente_id = Column(Integer, ForeignKey("cliente.id"))
+
+
 # fim da declaracao
 
 Base.metadata.create_all(engine)

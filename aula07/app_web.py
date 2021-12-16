@@ -10,6 +10,7 @@ app = Flask(__name__)
 def olamundo():
     return "<h1> Ola Mundo </h1>", 201
 
+
 @app.route("/cliente", methods=["GET", "POST"])
 @app.route("/cliente/<int:id_cliente>", methods=["GET", "PUT", "DELETE"])
 def clientes(id_cliente=None):
@@ -22,12 +23,7 @@ def clientes(id_cliente=None):
                     .one()
                 )
                 return (
-                    jsonify(
-                        {
-                            "id": cliente.id,
-                            "nome": cliente.nome
-                        }
-                    ),
+                    jsonify({"id": cliente.id, "nome": cliente.nome}),
                     200,
                 )
             except Exception as ex:
@@ -36,36 +32,21 @@ def clientes(id_cliente=None):
             lista_clientes = []
             clientes = session.query(Cliente).all()
             for c in clientes:
-                lista_clientes.append(
-                    {
-                        "id": c.id,
-                        "nome": c.nome
-                    }
-                )
+                lista_clientes.append({"id": c.id, "nome": c.nome})
             return jsonify(lista_clientes), 200
     elif request.method == "POST":
         cliente = request.json
         session.add(
-            Cliente(
-                nome=cliente["nome"],
-                endereco=cliente['endereco']
-            )
+            Cliente(nome=cliente["nome"], endereco=cliente["endereco"])
         )
         session.commit()
         return "", 200
     elif request.method == "PUT":
         cliente = request.json
-        session.query(Cliente).filter(
-            Cliente.id == id_cliente
-        ).update(
-            {
-                'nome': cliente['nome'],
-                'endereco': cliente['endereco']
-            }
+        session.query(Cliente).filter(Cliente.id == id_cliente).update(
+            {"nome": cliente["nome"], "endereco": cliente["endereco"]}
         )
         return "", 200
-        
-app.run(
-    host="0.0.0.0",
-    port=8080
-)
+
+
+app.run(host="0.0.0.0", port=8080)
