@@ -57,12 +57,13 @@ def clientes(id_cliente=None):
         cliente = request.json
         session.query(Cliente).filter(
             Cliente.id == id_cliente
-        ).one().update(
+        ).update(
             {
                 'nome': cliente['nome'],
                 'endereco': cliente['endereco']
             }
         )
+        return "", 200
         
 app.run(
     host="0.0.0.0",
