@@ -46,6 +46,13 @@ def clientes(id_cliente=None):
         session.query(Cliente).filter(Cliente.id == id_cliente).update(
             {"nome": cliente["nome"], "endereco": cliente["endereco"]}
         )
+        session.commit()
+        return "", 200
+    elif request.method == "DELETE":
+        session.query(Cliente).filter(
+            Cliente.id == id_cliente
+        ).delete()
+        session.commit()
         return "", 200
 
 
