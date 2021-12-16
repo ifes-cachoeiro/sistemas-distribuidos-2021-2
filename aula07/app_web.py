@@ -15,14 +15,15 @@ def olamundo():
 def clientes():
     if request.method == "GET":
         lista_clientes = []
-        # session.query(Cliente).filter(Cliente.id_cliente == 1)
+        # session.query(Cliente)
+        # .filter(Cliente.id == 1)
+        # .delete()
         clientes = session.query(Cliente).all()
         for c in clientes:
             lista_clientes.append(
                 {
                     "id": c.id,
-                    "nome": c.nome,
-                    "endereco": c.endereco
+                    "nome": c.nome
                 }
             )
         return jsonify(lista_clientes), 200
@@ -31,7 +32,7 @@ def clientes():
         session.add(
             Cliente(
                 nome=cliente["nome"],
-                endereco = cliente["endereco"]
+                endereco=cliente['endereco']
             )
         )
         session.commit()
