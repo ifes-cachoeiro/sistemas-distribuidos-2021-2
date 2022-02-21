@@ -13,7 +13,7 @@ def olamundo():
 
 @app.route("/cliente", methods=["GET", "POST"])
 @app.route("/cliente/<int:id_cliente>", methods=["GET", "PUT", "DELETE"])
-def clientes(id_cliente=None):
+def cliente(id_cliente=None):
     if request.method == "GET":
         if id_cliente:
             try:
